@@ -16,7 +16,7 @@ public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // 如果作为透明的上游代理，那么直接连接下游代理并转发TCP包即可
+        // 如果设置了上游代理，那么直接转发即可
         Channel inbound = ctx.channel();
         if (proxyServer.getUpstream() != null) {
             ChannelInitializer<Channel> clientHandler = new ChannelInitializer<>() {
