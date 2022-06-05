@@ -1,4 +1,5 @@
 # JProxy
+[![GitHub](https://img.shields.io/github/license/c3b2a7/JProxy)](https://github.com/c3b2a7/JProxy/blob/master/LICENSE)
 
 > A lightweight proxy with too many bugs 🥲
 
