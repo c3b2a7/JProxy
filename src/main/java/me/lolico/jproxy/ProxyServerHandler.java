@@ -18,7 +18,6 @@ public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         // 如果设置了上游代理，那么直接转发即可
         Channel inbound = ctx.channel();
-        inbound.pipeline().remove(this);
         if (proxyServer.getUpstream() != null) {
             ChannelInitializer<Channel> clientHandler = new ChannelInitializer<>() {
                 @Override
@@ -39,8 +38,10 @@ public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
                     inbound.close();
                 }
             });
+            inbound.pipeline().remove(this);
         } else {
             ctx.pipeline().addAfter(ctx.name(), null, new MixinProtocolSelector());
+            inbound.pipeline().remove(this);
             ctx.fireChannelRead(msg);
         }
     }
