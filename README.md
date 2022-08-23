@@ -5,8 +5,9 @@
 
 ## Features
 
-- support `http`/`socks4`/`socks5` protocols on single port (mixin by default)
+- support `http`/`https`/`socks4`/`socks5` protocols on single port (mixin by default)
 - support upstream proxy
+- support self signed certificate generation
 - implementation with netty4, pooled direct buffer and zero copy...
 
 ## Quick Start

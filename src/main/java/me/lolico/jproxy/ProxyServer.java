@@ -1,9 +1,7 @@
 package me.lolico.jproxy;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
+import io.netty.channel.*;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.logging.ByteBufFormat;
 import io.netty.handler.logging.LogLevel;
@@ -35,7 +33,13 @@ public class ProxyServer extends AbstractServer {
                 ch.pipeline()
                         .addLast(new LoggingHandler("LocalTunnel", LogLevel.INFO, ByteBufFormat.SIMPLE))
                         .addLast(channelGroupListener)
-                        .addLast(serverHandler);
+                        .addLast(serverHandler)
+                        .addLast(new ChannelInboundHandlerAdapter() {
+                            @Override
+                            public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+                                ctx.channel().close();
+                            }
+                        });
             }
         };
     }

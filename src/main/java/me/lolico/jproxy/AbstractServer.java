@@ -61,16 +61,22 @@ public abstract class AbstractServer implements Server {
             serverBootstrap.childHandler(childChannelInitializer);
         }
 
-        return serverBootstrap;
+        return postProcessBootstrap(serverBootstrap);
     }
 
     protected ChannelInitializer<ServerChannel> serverChannelInitializer() {
         return null;
     }
 
-    protected abstract ChannelInitializer<Channel> childChannelInitializer();
+    protected ChannelInitializer<Channel> childChannelInitializer() {
+        return null;
+    }
 
     protected ServerBootstrap preProcessBootstrap(ServerBootstrap serverBootstrap) {
+        return serverBootstrap;
+    }
+
+    protected ServerBootstrap postProcessBootstrap(ServerBootstrap serverBootstrap) {
         return serverBootstrap;
     }
 
