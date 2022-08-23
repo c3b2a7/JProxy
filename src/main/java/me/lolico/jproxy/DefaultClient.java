@@ -15,7 +15,6 @@ public class DefaultClient implements Client {
     private final Class<? extends Channel> channelClass;
     private final ChannelHandler channelHandler;
     private final Supplier<SocketAddress> remoteResolver;
-    private final Supplier<SocketAddress> localResolver;
 
     private Bootstrap bootstrap;
     private Channel channel;
@@ -27,17 +26,6 @@ public class DefaultClient implements Client {
         this.channelClass = channelClass;
         this.channelHandler = channelHandler;
         this.remoteResolver = remoteResolver;
-        this.localResolver = () -> null;
-    }
-
-    public DefaultClient(EventLoopGroup worker, Class<? extends Channel> channelClass,
-                         ChannelHandler channelHandler, Supplier<SocketAddress> remoteResolver,
-                         Supplier<SocketAddress> localResolver) {
-        this.worker = worker;
-        this.channelClass = channelClass;
-        this.channelHandler = channelHandler;
-        this.remoteResolver = remoteResolver;
-        this.localResolver = localResolver;
     }
 
     @Override
@@ -52,7 +40,7 @@ public class DefaultClient implements Client {
                 .group(worker)
                 .channel(channelClass)
                 .handler(channelHandler);
-        channelFuture = bootstrap.connect(remoteResolver.get(), localResolver.get());
+        channelFuture = bootstrap.connect(remoteResolver.get());
         channel = channelFuture.channel();
     }
 
