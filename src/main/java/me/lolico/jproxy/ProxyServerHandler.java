@@ -38,11 +38,10 @@ public class ProxyServerHandler extends ChannelInboundHandlerAdapter {
                     inbound.close();
                 }
             });
-            inbound.pipeline().remove(this);
         } else {
             ctx.pipeline().addAfter(ctx.name(), null, new MixinProtocolSelector());
-            inbound.pipeline().remove(this);
             ctx.fireChannelRead(msg);
         }
+        inbound.pipeline().remove(this);
     }
 }

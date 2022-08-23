@@ -5,35 +5,18 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.logging.ByteBufFormat;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
-import java.util.function.Supplier;
 
 @ChannelHandler.Sharable
 public class HttpMessageHandler extends SimpleChannelInboundHandler<HttpRequest> {
-
-    public static Logger logger = LoggerFactory.getLogger(HttpMessageHandler.class);
-    public static final String OBC = "Obc-Use-IP";
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, HttpRequest httpRequest) throws Exception {
         Tuple2<String, Integer> hostAndPort = parseHostAndPort(httpRequest);
         final Channel inbound = ctx.channel();
         inbound.config().setAutoRead(false);
-
-        Supplier<SocketAddress> localResolver = () -> {
-            String ip = httpRequest.headers().get(OBC);
-            if (ip != null) {
-                logger.info("use ip {}", ip);
-                return new InetSocketAddress(ip, 0);
-            }
-            return null;
-        };
 
         ChannelInitializer<Channel> clientHandler = new ChannelInitializer<>() {
             @Override
@@ -44,7 +27,7 @@ public class HttpMessageHandler extends SimpleChannelInboundHandler<HttpRequest>
             }
         };
         DefaultClient client = new DefaultClient(inbound.eventLoop(), inbound.getClass(),
-                clientHandler, () -> new InetSocketAddress(hostAndPort.getT1(), hostAndPort.getT2()), localResolver);
+                clientHandler, () -> new InetSocketAddress(hostAndPort.getT1(), hostAndPort.getT2()));
         client.open();
         client.getChannelFuture().addListener((ChannelFutureListener) future -> {
             if (future.isSuccess()) {
