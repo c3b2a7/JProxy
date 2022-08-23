@@ -42,7 +42,7 @@ public class SocksMessageHandler extends SimpleChannelInboundHandler<SocksMessag
                     }
                 });
             } else {
-                throw new IllegalStateException("unsupported socks5 command type: " + request.type());
+                throw new IllegalStateException("unsupported socks4 command type: " + request.type());
             }
         } else {
             throw new IllegalStateException("unknown socks4 message: " + msg);
