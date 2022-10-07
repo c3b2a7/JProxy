@@ -13,7 +13,10 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <netty.version>4.1.77.Final</netty.version>
+        <netty.version>4.1.82.Final</netty.version>
+        <reactor.version>3.4.23</reactor.version>
+        <bouncycastle.version>1.72</bouncycastle.version>
+        <logback.version>1.4.3</logback.version>
     </properties>
 
     <dependencies>
@@ -65,17 +68,17 @@
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>
-            <version>3.4.15</version>
+            <version>${reactor.version}</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk18on</artifactId>
-            <version>1.71</version>
+            <version>${bouncycastle.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <dependency>
