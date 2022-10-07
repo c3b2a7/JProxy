@@ -47,8 +47,8 @@ public class HttpMessageHandler extends SimpleChannelInboundHandler<HttpRequest>
                 clientHandler, () -> new InetSocketAddress(hostAndPort.getT1(), hostAndPort.getT2()), localResolver);
         client.open();
         client.getChannelFuture().addListener((ChannelFutureListener) future -> {
+            final Channel outbound = future.channel();
             if (future.isSuccess()) {
-                final Channel outbound = future.channel();
                 if (httpRequest.method() == HttpMethod.CONNECT) {
                     inbound.writeAndFlush(new DefaultHttpResponse(
                             httpRequest.protocolVersion(), HttpResponseStatus.OK));
@@ -70,6 +70,7 @@ public class HttpMessageHandler extends SimpleChannelInboundHandler<HttpRequest>
                 inbound.config().setAutoRead(true);
             } else {
                 inbound.close();
+                outbound.close();
             }
         });
     }

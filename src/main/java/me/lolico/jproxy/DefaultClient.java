@@ -61,6 +61,9 @@ public class DefaultClient implements Client {
         if (channel != null) {
             channel.close();
         }
+        if (worker != null) {
+            worker.shutdownGracefully();
+        }
     }
 
     @Override
