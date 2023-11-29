@@ -16,7 +16,7 @@
         <netty.version>4.1.82.Final</netty.version>
         <reactor.version>3.4.23</reactor.version>
         <bouncycastle.version>1.72</bouncycastle.version>
-        <logback.version>1.4.3</logback.version>
+        <logback.version>1.4.12</logback.version>
     </properties>
 
     <dependencies>
